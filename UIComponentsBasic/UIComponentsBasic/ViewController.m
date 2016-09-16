@@ -7,7 +7,8 @@
 //
 
 #import "ViewController.h"
-
+#import "Products.h"
+NSMutableArray *products;
 @interface ViewController ()
 {
     
@@ -16,6 +17,7 @@
     IBOutlet UITextField *textFieldProductPrice;
     
     IBOutlet UITextField *textFieldProductCategory;
+    
 }
 
 @end
@@ -24,6 +26,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    products=[[NSMutableArray alloc]init];
     // Do any additional setup after loading the view, typically from a nib.
 }
 
@@ -45,14 +48,33 @@
     NSPredicate *regexTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regExp];
     return [regexTest evaluateWithObject:input];
 }
+-(BOOL)isNumericOnly:(NSString *)input
+{
+    NSString *regExp = @"[0-9]{2,5}[.]{0,1}[0-9]{0,2}";
+    NSPredicate *regexTest = [NSPredicate predicateWithFormat:@"SELF MATCHES %@", regExp];
+    return [regexTest evaluateWithObject:input];
+}
 - (IBAction)buttonAddTapped:(id)sender {
     NSString *productName=textFieldProductName.text;
     float productPrice=[textFieldProductPrice.text floatValue];
     NSString *productCategory=textFieldProductCategory.text;
-    NSLog(@"length is %d",productName.length);
-    NSLog(@"Product Name is %@ ,product price is %f and product category is %@",productName,productPrice,productCategory);
-    if([self isAlphaOnly:productName]==NO){
-        NSLog(@"put only character set");
+    
+    Products *product=[[Products alloc]init];
+    product.productName=productName;
+    product.productPrice=productPrice;
+    product.productCategory=productCategory;
+    
+    [products addObject:product];
+    
+    for( product in products){
+         NSLog(@"Product Name is %@ ,product price is %.02f and product category is %@",product.productName,product.productPrice,product.productCategory);
+    }
+    
+    if([self isAlphaOnly:productName]==NO || [self isAlphaOnly:productCategory]== NO){
+        NSLog(@"Only character set allowed.");
+    }
+    if([self isNumericOnly:textFieldProductPrice.text]==NO ){
+        NSLog(@"Number ranging from 10 to 99999 and after decimal point only two numbers.");
     }
     if([self isWhitespace:productName]== NO){
         [textFieldProductName becomeFirstResponder];
@@ -70,8 +92,6 @@
         textFieldProductPrice.text=@"";
         textFieldProductCategory.text=@"";
     }
-    
-
     
 }
 

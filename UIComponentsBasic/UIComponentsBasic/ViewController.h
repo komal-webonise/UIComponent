@@ -7,7 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-
+extern NSMutableArray *products;
 @interface ViewController : UIViewController
 
 
