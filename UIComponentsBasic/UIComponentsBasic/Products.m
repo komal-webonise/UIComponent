@@ -11,4 +11,11 @@
 @end
 @implementation Products
 @synthesize productName,productPrice,productCategory;
+- (id)init {
+    self = [super init];
+    productName=@"";
+    productPrice=0.0;
+    productCategory=@"";
+    return self;
+}
 @end

@@ -7,9 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
-extern NSMutableArray *products;
-@interface ViewController : UIViewController
-
+@interface ViewController : UIViewController <UIAlertViewDelegate>
 
 @end
 
